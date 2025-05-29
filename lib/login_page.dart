@@ -9,67 +9,63 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( // ✅ Added Scaffold
-      appBar: AppBar(
-        title: const Text("Login"), // Optional AppBar
-      ),
-      body: Center(
+    return Scaffold(
+        body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Let\'s sign you in!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Welcome back! \nYou\'ve been missed!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: Colors.blueGrey,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Image.network(
-                'https://via.placeholder.com/200x200',  // ✅ Replaced broken image URL
-                height: 200,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error, size: 50, color: Colors.red);
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: loginUser,
-                child: Text(
-                  'Click me!',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextButton(
-                onPressed: () {
-                  print('Pressed on the URL!');
-                },
-                child: const Text(
-                  'Go to Google',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+        padding: const EdgeInsets.all(24.0),
+    child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+    Text(
+    'Let\'s sign you in!',
+    textAlign: TextAlign.center,
+    style: TextStyle(
+    fontSize: 30,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 0.5),
+    ),
+    Text(
+    'Welcome back! \n You\'ve been missed!',
+    textAlign: TextAlign.center,
+    style: TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    color: Colors.blueGrey),
+    ),
+    Image.network(
+    'https://3009709.youcanlearnit.net/Alien_LIL_131338.png',
+    height: 200,
+    ),
+    ElevatedButton(
+    onPressed: loginUser,
+    child: Text('Click me!',
+    style:
+    TextStyle(fontSize: 30, fontWeight: FontWeight.w300)),
+    ),
+    InkWell(
+    splashColor: Colors.red,
+    onDoubleTap: () {
+    print('double tapped!');
+    },
+    onLongPress: () {
+    print('onLongpress!');
+    },
+    onTap: () {
+    print('Link clicked!');
+    },
+    child: Column(
+    children: [
+    Text('Find us on'),
+    Text('https://google.com'),
+    ],
+    ),
+    )
+    ],
+    ),
+    ),
+    ),
     );
+    }
   }
-}
