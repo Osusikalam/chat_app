@@ -14,6 +14,7 @@ class ChatMessageEntity {
 
   factory ChatMessageEntity.fromJson(Map<String, dynamic> json) {
     return ChatMessageEntity(
+        imageUrl: json['image'],
         text: json['text'],
         id: json['id'],
         createdAt: json['createdAt'],
@@ -28,3 +29,4 @@ class Author {
   factory Author.fromJson(Map<String, dynamic> json) {
     return Author(userName: json['username']);
   }
+}
