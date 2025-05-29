@@ -20,70 +20,83 @@ class _ChatPageState extends State<ChatPage> {
 
   _loadInitialMessages() async {
     final response = await rootBundle.loadString('assets/mock_messages.json');
+    rootBundle.loadString('assets/mock_messages.json').then((response) {
+      final List<dynamic> decodeList = jsonDecode(response) as List;
 
-    final List<dynamic> decodeList = jsonDecode(response) as List;
+      final List<dynamic> decodeList = jsonDecode(response) as List;
+      final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
+        return ChatMessageEntity.fromJson(listItem);
+      }).toList();
 
-    final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
-      return ChatMessageEntity.fromJson(listItem);
-    }).toList();
+      final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
+        return ChatMessageEntity.fromJson(listItem);
+      }).toList();
+      print(_chatMessages.length);
 
-    print(_chatMessages.length);
+      print(_chatMessages.length);
 
-    //final state of messages
-    setState(() {
-      _messages = _chatMessages;
-    });
+      //final state of messages
+      setState(() {
+        _messages = _chatMessages;
+        //final state of messages
+        setState(() {
+          _messages = _chatMessages;
+        });
+      }).then((_) {
+        print('Done!');
+      });
+
+      print('Something');
+    }
+
+        onMessageSent(ChatMessageEntity entity) {
+      _messages.add(entity);
+      setState(() {});
+    }
+
+    @override
+    void initState() {
+      _loadInitialMessages();
+      // TODO: implement initState
+      super.initState();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      final username = ModalRoute.of(context)!.settings.arguments as String;
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text('Hi $username!'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  //TODO: Navigate back to LoginPage on logout
+                  Navigator.pushReplacementNamed(context, '/');
+                  print('Icon press');
+                },
+                icon: Icon(Icons.logout))
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+                child: ListView.builder(
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      return ChatBubble(
+                          alignment:
+                          _messages[index].author.userName == 'poojab26'
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          entity: _messages[index]);
+                    })),
+            ChatInput(
+              onSubmit: onMessageSent,
+            ),
+          ],
+        ),
+      );
+    }
   }
-
-  onMessageSent(ChatMessageEntity entity) {
-    _messages.add(entity);
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _loadInitialMessages();
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final username = ModalRoute.of(context)!.settings.arguments as String;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text('Hi $username!'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                //TODO: Navigate back to LoginPage on logout
-                Navigator.pushReplacementNamed(context, '/');
-                print('Icon press');
-              },
-              icon: Icon(Icons.logout))
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-              child: ListView.builder(
-                  itemCount: _messages.length,
-                  itemBuilder: (context, index) {
-                    return ChatBubble(
-                        alignment:
-                        _messages[index].author.userName == 'poojab26'
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        entity: _messages[index]);
-                  })),
-          ChatInput(),
-          ChatInput(
-            onSubmit: onMessageSent,
-          ),
-        ],
-      ),
-    );
-  }
-}
