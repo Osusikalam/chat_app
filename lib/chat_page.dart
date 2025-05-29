@@ -47,7 +47,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   //TODO: Move this to repository class
-  final ImageRepository _imageRepo = ImageRepository();
 
   @override
   void initState() {
@@ -61,6 +60,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final username = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -77,14 +77,6 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Column(
         children: [
-          FutureBuilder<List<PixelfordImage>>(
-              future: _imageRepo.getNetworkImages(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<PixelfordImage>> snapshot) {
-                if (snapshot.hasData)
-                  return Image.network(snapshot.data![0].urlFullSize);
-                return CircularProgressIndicator();
-              }),
           Expanded(
               child: ListView.builder(
                   itemCount: _messages.length,
