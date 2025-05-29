@@ -4,8 +4,10 @@ import '../models/image_model.dart';
 import '../repo/image_repository.dart';
 
 class NetworkImagePickerBody extends StatelessWidget {
+  final Function(String) onImageSelected;
   NetworkImagePickerBody({
     Key? key,
+    required this.onImageSelected,
   }) : super(key: key);
 
   final ImageRepository _imageRepo = ImageRepository();
@@ -21,6 +23,11 @@ class NetworkImagePickerBody extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return Image.network(snapshot.data![index].urlFullSize);
+                return GestureDetector(
+                    onTap: () {
+                      onImageSelected(snapshot.data![index].urlFullSize);
+                    },
+                    child: Image.network(snapshot.data![index].urlFullSize));
               },
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 2,
