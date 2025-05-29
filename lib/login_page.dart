@@ -6,61 +6,36 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      drawer: Drawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('Button clicked');
-        },
-        child: Icon(Icons.login),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+
+
+              body: Center(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+              Text(
               'Let\'s sign you in!',
+
               style: TextStyle(
-                fontSize: 30,
-                color: Colors.brown,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 0.5,
+                  fontSize: 30,
+                  color: Colors.brown,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5
               ),
             ),
-            SizedBox(height: 10),
-            Text(
-              'Welcome back! \nYou\'ve been missed!',
+
+              Text(
+              'Welcome back! \n You\'ve been missed!',
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.blueGrey,
-              ),
+                  fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blueGrey),
             ),
-            SizedBox(height: 20),
-            Image.network(
-              'https://via.placeholder.com/200x200',
-              height: 200,
-              fit: BoxFit.cover,
+            Image.network('https://3009709.youcanlearnit.net/Alien_LIL_131338.png', height: 200,
             ),
-            SizedBox(height: 20),
-            Container(
-              height: 150,
-              width: 150,
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.symmetric(horizontal: 50),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fitHeight,
-                  image: NetworkImage('https://via.placeholder.com/150'),
-                ),
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(24),
-              ),
-            ),
-          ],
-        ),
-      ),
+
+      ],
+    ),
+    ),
     );
   }
 }
