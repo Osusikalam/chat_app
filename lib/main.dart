@@ -1,40 +1,19 @@
+import 'package:chat_app/chat_page.dart';
+import 'package:chat_app/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(ChatApp());
 }
 
-  class ChatApp extends StatelessWidget {
+class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  // TODO: implement build
-  return MaterialApp(
-
-  title: "Flutter Chat App!!!",
-  theme: ThemeData(primarySwatch: Colors.yellow),
-  home: LoginPage(),
-  );
+    // TODO: implement build
+    return MaterialApp(
+      title: "Flutter Chat App!!!",
+      theme: ThemeData(primarySwatch: Colors.yellow),
+      home: Chatpage(),
+    );
   }
-  }
-
-
-  class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-
-  return Scaffold(
-
-  appBar: AppBar(),
-  drawer: Drawer(),
-  floatingActionButton: FloatingActionButton(
-  onPressed: () {
-  print('Button clicked');
-  },
-  ),
-
-  body: Text('Hello!'),
-  );
-  }
-  }
+}
