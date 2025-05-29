@@ -71,6 +71,7 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
               onPressed: () {
                 //TODO: Navigate back to LoginPage on logout
+                context.read<AuthService>().logoutUser();
                 Navigator.pushReplacementNamed(context, '/');
                 print('Icon press');
               },
@@ -85,11 +86,10 @@ class _ChatPageState extends State<ChatPage> {
                   itemBuilder: (context, index) {
                     return ChatBubble(
                         alignment: _messages[index].author.userName ==
-                            AuthService().getUserName()
-                        context.read<AuthService>().getUserName()
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    entity: _messages[index]);
+                            context.read<AuthService>().getUserName()
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        entity: _messages[index]);
                   })),
           ChatInput(
             onSubmit: onMessageSent,
