@@ -1,5 +1,8 @@
 import 'package:chat_app/chat_page.dart';
 import 'package:chat_app/utils/textfield_styles.dart';
+//import 'package:chat_app/chat_page.dart';
+import 'package:chat_app/utils/spaces.dart';
+//import 'package:chat_app/utils/textfield_styles.dart';
 import 'package:chat_app/widgets/login_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -30,107 +33,98 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+      body: Center(
         child: Padding(
-        padding: const EdgeInsets.all(24.0),
-    child: SingleChildScrollView(
-    child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-    Text(
-    'Let\'s sign you in!',
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    fontSize: 30,
-    color: Colors.black,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 0.5),
-    ),
-    Text(
-    'Welcome back! \n You\'ve been missed!',
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    fontWeight: FontWeight.w500,
-    fontSize: 20,
-    color: Colors.blueGrey),
-    ),
-    Image.network(
-    'https://3009709.youcanlearnit.net/Alien_LIL_131338.png',
-    height: 200,
-    ),
+          padding: const EdgeInsets.all(24.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Let\'s sign you in!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5),
+                ),
+                Text(
+                  'Welcome back! \n You\'ve been missed!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: Colors.blueGrey),
+                ),
+                Image.network(
+                  'https://3009709.youcanlearnit.net/Alien_LIL_131338.png',
+                  height: 200,
+                ),
 
-    //TODO: Add Username & Password text fields
+                //TODO: Add Username & Password text fields
 
-    Form(
-    key: _formkey,
-    child: Column(
-    children: [
-    TextFormField(
-    LoginTextField(
-    hintText: "Enter your username",
-    validator: (value) {
-    if (value != null &&
-    value.isNotEmpty &&
-    value.length < 5) {
-    return "Your username should be more than 5 characters";
-    } else if (value != null && value.isEmpty) {
-    return "Please type your username";
-    }
-    return null;
-    },
-    controller: userNameController,
-    decoration: InputDecoration(
-    hintText: 'Add your username',
-    hintStyle: TextStyle(color: Colors.blueGrey),
-    border: OutlineInputBorder()),
-    ),
-    SizedBox(
-    height: 24,
-    ),
-    TextFormField(
-    LoginTextField(
-    hasAsterisks: true,
-    controller: passwordController,
-    obscureText: true,
-    decoration: InputDecoration(
-    hintText: 'Type your password',
-    hintStyle: TextStyle(color: Colors.blueGrey),
-    border: OutlineInputBorder()),
-    hintText: 'Enter your password',
-    ),
-    ],
-    ),
-    ),
-    SizedBox(
-    height: 24,
-    ),
-    ElevatedButton(
-    onPressed: () {
-    loginUser(context);
-    },
-    child: Text(
-    'Login',
-    style:
-    TextStyle(fontSize: 24, fontWeight: FontWeight.w300),
-    )),
-    GestureDetector(
-    onTap: () {
-    //todo: Navigate to browser
-    print('Link clicked!');
-    },
-    child: Column(
-    children: [
-    Text('Find us on'),
-    Text('https://poojabhaumik.com'),
-    ],
-    ),
-    )
-    ],
-    ),
-    ),
-    ),
-    ),
+                Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      LoginTextField(
+                        hintText: "Enter your username",
+                        validator: (value) {
+                          if (value != null &&
+                              value.isNotEmpty &&
+                              value.length < 5) {
+                            return "Your username should be more than 5 characters";
+                          } else if (value != null && value.isEmpty) {
+                            return "Please type your username";
+                          }
+                          return null;
+                        },
+                        controller: userNameController,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      verticalSpacing(24),
+                      LoginTextField(
+                        hasAsterisks: true,
+                        controller: passwordController,
+                        hintText: 'Enter your password',
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                verticalSpacing(24),
+                ElevatedButton(
+                    onPressed: () {
+                      loginUser(context);
+                    },
+                    child: Text(
+                      'Login',
+                      style:
+                      TextStyle(fontSize: 24, fontWeight: FontWeight.w300),
+                    )),
+                GestureDetector(
+                  onTap: () {
+                    //todo: Navigate to browser
+                    print('Link clicked!');
+                  },
+                  child: Column(
+                    children: [
+                      Text('Find us on'),
+                      Text('https://poojabhaumik.com'),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
     );
-    }
+  }
 }
