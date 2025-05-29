@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:chat_app/models/image_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:chat_app/widgets/chat_bubble.dart';
 import 'package:chat_app/widgets/chat_input.dart';
 import 'package:flutter/material.dart';
@@ -19,84 +21,93 @@ class _ChatPageState extends State<ChatPage> {
   List<ChatMessageEntity> _messages = [];
 
   _loadInitialMessages() async {
-    final response = await rootBundle.loadString('assets/mock_messages.json');
     rootBundle.loadString('assets/mock_messages.json').then((response) {
       final List<dynamic> decodeList = jsonDecode(response) as List;
 
-      final List<dynamic> decodeList = jsonDecode(response) as List;
       final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
         return ChatMessageEntity.fromJson(listItem);
       }).toList();
-
-      final List<ChatMessageEntity> _chatMessages = decodeList.map((listItem) {
-        return ChatMessageEntity.fromJson(listItem);
-      }).toList();
-      print(_chatMessages.length);
 
       print(_chatMessages.length);
 
       //final state of messages
       setState(() {
         _messages = _chatMessages;
-        //final state of messages
-        setState(() {
-          _messages = _chatMessages;
-        });
-      }).then((_) {
-        print('Done!');
       });
+    }).then((_) {
+      print('Done!');
+    });
 
-      print('Something');
-    }
+    print('Something');
+    //print('Something');
+  }
 
-        onMessageSent(ChatMessageEntity entity) {
-      _messages.add(entity);
-      setState(() {});
-    }
+  onMessageSent(ChatMessageEntity entity) {
+    _messages.add(entity);
+    setState(() {});
+  }
 
-    @override
-    void initState() {
-      _loadInitialMessages();
-      // TODO: implement initState
-      super.initState();
-    }
+  //TODO: Get Network Images from API
+  _getNetworkImages() async {
+    var endpointUrl = Uri.parse('https://picsum.photos/v2/list');
 
-    @override
-    Widget build(BuildContext context) {
-      final username = ModalRoute.of(context)!.settings.arguments as String;
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text('Hi $username!'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  //TODO: Navigate back to LoginPage on logout
-                  Navigator.pushReplacementNamed(context, '/');
-                  print('Icon press');
-                },
-                icon: Icon(Icons.logout))
-          ],
-        ),
-        body: Column(
-          children: [
-            Expanded(
-                child: ListView.builder(
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      return ChatBubble(
-                          alignment:
-                          _messages[index].author.userName == 'poojab26'
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
-                          entity: _messages[index]);
-                    })),
-            ChatInput(
-              onSubmit: onMessageSent,
-            ),
-          ],
-        ),
-      );
+    final response = await http.get(endpointUrl);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeList = jsonDecode(response.body) as List;
+
+      final List<PixelfordImage> _imageList = decodeList.map((listItem) {
+        return PixelfordImage.fromJson(listItem);
+      }).toList();
+      print(_imageList[0].urlFullSize);
     }
   }
+
+  @override
+  void initState() {
+    _loadInitialMessages();
+    _getNetworkImages();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _getNetworkImages();
+    final username = ModalRoute.of(context)!.settings.arguments as String;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Hi $username!'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                //TODO: Navigate back to LoginPage on logout
+                Navigator.pushReplacementNamed(context, '/');
+                print('Icon press');
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView.builder(
+                  itemCount: _messages.length,
+                  itemBuilder: (context, index) {
+                    return ChatBubble(
+                        alignment:
+                        _messages[index].author.userName == 'poojab26'
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        entity: _messages[index]);
+                  })),
+          ChatInput(
+            onSubmit: onMessageSent,
+          ),
+        ],
+      ),
+    );
+  }
+}

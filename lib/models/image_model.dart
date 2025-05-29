@@ -4,6 +4,7 @@ part 'image_model.g.dart';
 
 @JsonSerializable()
 class PixelformImage {
+  class PixelfordImage {
   String id;
   String author;
   String url;
@@ -12,13 +13,15 @@ class PixelformImage {
   String urlFullSize;
 
   PixelformImage(
-      {required this.author,
-        required this.url,
-        required this.id,
-        required this.urlFullSize});
+  PixelfordImage(
+  {required this.author,
+  required this.url,
+  required this.id,
+  required this.urlFullSize});
 
   factory PixelformImage.fromJson(Map<String, dynamic> json) =>
-      _$PixelformImageFromJson(json);
+  factory PixelfordImage.fromJson(Map<String, dynamic> json) =>
+  _$PixelformImageFromJson(json);
 
   Map<String, dynamic> toJson() => _$PixelformImageToJson(this);
-}
+  }
