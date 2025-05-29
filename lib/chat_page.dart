@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:chat_app/models/image_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:chat_app/widgets/chat_bubble.dart';
@@ -38,7 +37,6 @@ class _ChatPageState extends State<ChatPage> {
       print('Done!');
     });
 
-    print('Something');
     //print('Something');
   }
 
@@ -49,65 +47,77 @@ class _ChatPageState extends State<ChatPage> {
 
   //TODO: Get Network Images from API
   _getNetworkImages() async {
-    var endpointUrl = Uri.parse('https://picsum.photos/v2/list');
+    Future<List<PixelfordImage>> _getNetworkImages() async {
+      var endpointUrl = Uri.parse('https://picsum.photos/v2/list');
 
-    final response = await http.get(endpointUrl);
+      final response = await http.get(endpointUrl);
 
-    if (response.statusCode == 200) {
-      final List<dynamic> decodeList = jsonDecode(response.body) as List;
+      if (response.statusCode == 200) {
+        final List<dynamic> decodeList = jsonDecode(response.body) as List;
 
-      final List<PixelfordImage> _imageList = decodeList.map((listItem) {
-        return PixelfordImage.fromJson(listItem);
-      }).toList();
-      print(_imageList[0].urlFullSize);
+        final List<PixelfordImage> _imageList = decodeList.map((listItem) {
+          return PixelfordImage.fromJson(listItem);
+        }).toList();
+        print(_imageList[0].urlFullSize);
+        return _imageList;
+      } else {
+        throw Exception('API not successful!');
+      }
+    }
+
+    @override
+    void initState() {
+      _loadInitialMessages();
+      _getNetworkImages();
+      // TODO: implement initState
+      super.initState();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      _getNetworkImages();
+      final username = ModalRoute.of(context)!.settings.arguments as String;
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text('Hi $username!'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  //TODO: Navigate back to LoginPage on logout
+                  Navigator.pushReplacementNamed(context, '/');
+                  print('Icon press');
+                },
+                icon: Icon(Icons.logout))
+          ],
+        ),
+        body: Column(
+          children: [
+            FutureBuilder<List<PixelfordImage>>(
+                future: _getNetworkImages(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<PixelfordImage>> snapshot) {
+                  if (snapshot.hasData)
+                    return Image.network(snapshot.data![0].urlFullSize);
+                  return CircularProgressIndicator();
+                }),
+            Expanded(
+                child: ListView.builder(
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      return ChatBubble(
+                          alignment:
+                          _messages[index].author.userName == 'poojab26'
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          entity: _messages[index]);
+                    })),
+            ChatInput(
+              onSubmit: onMessageSent,
+            ),
+          ],
+        ),
+      );
     }
   }
-
-  @override
-  void initState() {
-    _loadInitialMessages();
-    _getNetworkImages();
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _getNetworkImages();
-    final username = ModalRoute.of(context)!.settings.arguments as String;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text('Hi $username!'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                //TODO: Navigate back to LoginPage on logout
-                Navigator.pushReplacementNamed(context, '/');
-                print('Icon press');
-              },
-              icon: Icon(Icons.logout))
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-              child: ListView.builder(
-                  itemCount: _messages.length,
-                  itemBuilder: (context, index) {
-                    return ChatBubble(
-                        alignment:
-                        _messages[index].author.userName == 'poojab26'
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        entity: _messages[index]);
-                  })),
-          ChatInput(
-            onSubmit: onMessageSent,
-          ),
-        ],
-      ),
-    );
-  }
-}
