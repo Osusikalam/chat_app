@@ -12,16 +12,13 @@ class ChatPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-
-        title: Center(
-          child: Text('Hi $username!'),
-        ),
-
+        title: Text('Hi $username!'),
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pop(context);
-                print('Icon pressed!');
+                //TODO: Navigate back to LoginPage on logout
+                Navigator.pushReplacementNamed(context, '/');
+                print('Icon press');
               },
               icon: Icon(Icons.logout))
         ],
@@ -29,16 +26,15 @@ class ChatPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ChatBubble(
-                      alignment: index % 2 == 0
-                          ? Alignment.centerLeft
-                          : Alignment.centerRight,
-                      message: "Hello, this is Ivan!");
-                }),
-          ),
+              child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return ChatBubble(
+                        alignment: index % 2 == 0
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
+                        message: "Hello, This is Alvic!");
+                  })),
           ChatInput(),
         ],
       ),
