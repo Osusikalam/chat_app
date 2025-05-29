@@ -1,8 +1,8 @@
 import 'package:chat_app/models/chat_message_entity.dart';
+import 'package:chat_app/widgets/picker_body.dart';
 import 'package:flutter/material.dart';
 
 class ChatInput extends StatelessWidget {
-  ChatInput({super.key});
   final Function(ChatMessageEntity) onSubmit;
   ChatInput({Key? key, required this.onSubmit}) : super(key: key);
 
@@ -29,6 +29,14 @@ class ChatInput extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {},
+            onPressed: () {
+              //TODO: Open a bottom sheet that shows a grid of images
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return NetworkImagePickerBody();
+                  });
+            },
             icon: Icon(
               Icons.add,
               color: Colors.white,

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:chat_app/models/image_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:chat_app/repo/image_repository.dart';
 
 import 'package:chat_app/widgets/chat_bubble.dart';
@@ -47,31 +46,12 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {});
   }
 
-  //TODO: Get Network Images from API
-  Future<List<PixelfordImage>> _getNetworkImages() async {
-    var endpointUrl = Uri.parse('https://picsum.photos/v2/list');
-
-    final response = await http.get(endpointUrl);
-
-    if (response.statusCode == 200) {
-      final List<dynamic> decodeList = jsonDecode(response.body) as List;
-
-      final List<PixelfordImage> _imageList = decodeList.map((listItem) {
-        return PixelfordImage.fromJson(listItem);
-      }).toList();
-      print(_imageList[0].urlFullSize);
-      return _imageList;
-    } else {
-      throw Exception('API not successful!');
-    }
-  }
   //TODO: Move this to repository class
   final ImageRepository _imageRepo = ImageRepository();
 
   @override
   void initState() {
     _loadInitialMessages();
-    _getNetworkImages();
 
     // TODO: implement initState
     super.initState();
@@ -79,7 +59,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    _getNetworkImages();
     final username = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
@@ -99,7 +78,6 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           FutureBuilder<List<PixelfordImage>>(
-              future: _getNetworkImages(),
               future: _imageRepo.getNetworkImages(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<PixelfordImage>> snapshot) {
