@@ -7,12 +7,11 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AuthService.init();
-  runApp(Provider(
-      runApp(ChangeNotifierProvider(
-      create: (BuildContext context) => AuthService(),
-  child: ChatApp(),
+  runApp(ChangeNotifierProvider(
+    create: (BuildContext context) => AuthService(),
+    child: ChatApp(),
   ));
-  }
+}
 
 class ChatApp extends StatelessWidget {
   @override
@@ -25,6 +24,17 @@ class ChatApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
               backgroundColor: Colors.blue, foregroundColor: Colors.black)),
       home: LoginPage(),
+      home: FutureBuilder<bool>(
+          future: context.read<AuthService>().isLoggedIn(),
+          builder: (context, AsyncSnapshot<bool> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData && snapshot.data!) {
+                return ChatPage();
+              } else
+                return LoginPage();
+            }
+            return CircularProgressIndicator();
+          }),
       routes: {'/chat': (context) => ChatPage()},
     );
   }
