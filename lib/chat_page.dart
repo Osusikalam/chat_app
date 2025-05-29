@@ -8,35 +8,37 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text('Hi Mark!'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                print('Icon pressed!');
-              },
-              icon: Icon(Icons.logout))
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ChatBubble(
-                      alignment: index % 2 == 0
-                          ? Alignment.centerLeft
-                          : Alignment.centerRight,
-                      message: "Hello, this is Ivan!");
-                }),
-
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Center(
+            child: Text('Hi Jonjie!'),
           ),
-          ChatInput(),
-        ],
-      ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  print('Icon pressed!');
+                },
+                icon: Icon(Icons.logout))
+          ],
+        ),
+        body: Column(
+            children: [
+        Expanded(
+        child: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return ChatBubble(
+              alignment: index % 2 == 0
+                  ? Alignment.centerLeft
+                  : Alignment.centerRight,
+              message: "Hello, this is Ivan!");
+        }),
+    ),
+    ChatInput(),
+    ],
+    ),
     );
   }
 }
