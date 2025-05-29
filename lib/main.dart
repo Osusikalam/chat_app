@@ -4,28 +4,28 @@ import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  void main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await AuthService.init();
-    runApp(Provider(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AuthService.init();
+  runApp(Provider(
+      runApp(ChangeNotifierProvider(
       create: (BuildContext context) => AuthService(),
-      child: ChatApp(),
-    ));
+  child: ChatApp(),
+  ));
   }
 
-  class ChatApp extends StatelessWidget {
+class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  return MaterialApp(
-  title: "Chat App",
-  theme: ThemeData(
-  canvasColor: Colors.transparent,
-  primarySwatch: Colors.deepPurple,
-  appBarTheme: AppBarTheme(
-  backgroundColor: Colors.blue, foregroundColor: Colors.black)),
-  home: LoginPage(),
-  routes: {'/chat': (context) => ChatPage()},
-  );
+    return MaterialApp(
+      title: "Chat App",
+      theme: ThemeData(
+          canvasColor: Colors.transparent,
+          primarySwatch: Colors.deepPurple,
+          appBarTheme: AppBarTheme(
+              backgroundColor: Colors.blue, foregroundColor: Colors.black)),
+      home: LoginPage(),
+      routes: {'/chat': (context) => ChatPage()},
+    );
   }
-  }
+}
