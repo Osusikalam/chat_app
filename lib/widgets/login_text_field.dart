@@ -1,5 +1,5 @@
+import 'package:chat_app/utils/textfields_styles.dart';
 import 'package:flutter/material.dart';
-import '../utils/textfield_styles.dart';
 
 class LoginTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -7,12 +7,11 @@ class LoginTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final bool hasAsterisks;
 
-  const LoginTextField(
-      {Key? key,
-        required this.controller,
-        required this.hintText,
-        this.validator,
-        this.hasAsterisks = false})
+  const LoginTextField({Key? key,
+    required this.controller,
+    required this.hintText,
+    this.validator,
+    this.hasAsterisks = false })
       : super(key: key);
 
   @override
@@ -20,14 +19,15 @@ class LoginTextField extends StatelessWidget {
     return TextFormField(
       obscureText: hasAsterisks,
       validator: (value) {
-        if (validator != null) return validator!(value);
+        if (validator != null)
+          return validator!(value);
       },
       controller: controller,
       decoration: InputDecoration(
-          hintText: 'Add your username',
-          hintText: '$hintText',
-          hintStyle: ThemeTextStyle.loginTextFieldStyle,
-          border: OutlineInputBorder()),
+        hintText: '$hintText',
+        hintStyle: ThemeTextStyle.loginTextFieldStyle,
+        border: OutlineInputBorder(),
+      ),
     );
   }
 }
